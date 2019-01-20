@@ -35,7 +35,7 @@ def auto_send():
         for friend in friends:
             print(friend)
         # 你朋友的微信名称，不是备注，也不是微信帐号。
-        send_friend_List = ['静心红叶', '困兽，加油！','温柔一刀']
+        send_friend_List = ['xx', 'xxx','xxx']
         for friend in  send_friend_List:
             send_friend = bot.friends().search(friend)[0]
             send_friend.send(todayNewsContent)
