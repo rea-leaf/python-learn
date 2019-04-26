@@ -2,7 +2,7 @@
 
 import time
 
-import XiaoIReply
+import TuLingReply
 import adminData
 import workDate
 #管理员手册
@@ -81,22 +81,20 @@ handbook_user_practical = '''
 def repot_time(group_free):
     isWorkdate= workDate.checkWorkDate()
     if isWorkdate:
-        while 1:
-            hour = time.strftime('%H', time.localtime(time.time()))
-            minutes = time.strftime('%M', time.localtime(time.time()))
-            seconds = time.strftime('%S', time.localtime(time.time()))
-            am =(hour == '09' and minutes == '10' and seconds == '00') or (hour == '09' and minutes == '20' and seconds == '00')or (hour == '09' and minutes == '25' and seconds == '00')
-            bm =(hour == '18' and minutes == '00' and seconds == '00') or (hour == '18' and minutes == '10' and seconds == '00')or (hour == '18' and minutes == '25' and seconds == '00')
-            if am :
+            if hour<12 :
                 nowTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
                 for n in range(3):
-                    group_free[0].send( '早上好！\n要上班啦，大家记得打卡,昨天的日报记得写哟：\n{}\n------------今日天气------------\n{}'.format(nowTime, XiaoIReply.text_reply('北京西二期天气')))
-            elif bm:
+                    group_free[0].send( '早上好！\n要上班啦，大家记得打卡,昨天的日报记得写哟：\n{}\n------------今日天气------------\n{}'.format(nowTime, TuLingReply.text_reply('北京西二期天气')))
+                    time.sleep(3)
+            elif hour>12:
                 nowTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
                 for n in range(3):
                     for group in group_free:
-                        group.send('该下班啦！\n大家 记得打卡，写今天的日报：\n{}\n------------轻松一下------------\n{}'.format(nowTime, XiaoIReply.text_reply('讲个笑话')))
+                        group.send('该下班啦！\n大家 记得打卡，写今天的日报：\n{}\n------------轻松一下------------\n{}'.format(nowTime, TuLingReply.text_reply('讲个笑话')))
+                        time.sleep(3)
             time.sleep(1)
+    else:
+        return
 
 #增加管理员函数
 def admin_add(robot_master,group_admin,name,name_temp):

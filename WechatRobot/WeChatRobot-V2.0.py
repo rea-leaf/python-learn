@@ -6,6 +6,7 @@ import threading
 import time
 from Logger import Logger
 from wxpy import *
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 #本地py
 import adminData
@@ -364,9 +365,25 @@ def auto_accept_friends(msg):
     else:
         return
 
-#准点报时
-FixedReply.repot_time(group_free)
-
+def group_auto_send():
+    try:
+        log.logger.info("----今日打卡提醒-11--")
+        FixedReply.repot_time(group_free)
+        log.logger.info("----今日打卡提醒--22-")
+        #log.logger.info(todayNewsContent)
+    except:
+        log.logger.error("今天消息发送失败了")
+#定时提醒
+log.logger.info("***开始启动定时任务***")
+sched = BlockingScheduler()
+sched.add_job(group_auto_send,'cron',month='1-12',day='1-31',hour=9,minute =10)#设定发送的时间
+sched.add_job(group_auto_send,'cron',month='1-12',day='1-31',hour=9,minute =20)#设定发送的时间
+sched.add_job(group_auto_send,'cron',month='1-12',day='1-31',hour=9,minute =25)#设定发送的时间
+sched.add_job(group_auto_send,'cron',month='1-12',day='1-31',hour=18,minute =00)#设定发送的时间
+sched.add_job(group_auto_send,'cron',month='1-12',day='1-31',hour=18,minute =20)#设定发送的时间
+sched.add_job(group_auto_send,'cron',month='1-12',day='1-31',hour=18,minute =25)#设定发送的时间
+sched.start()
+log.logger.info('--------WeChatRobot 启动完成----------')
 #开始监听和自动处理消息
 #robot.start()
 #embed()

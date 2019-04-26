@@ -20,3 +20,6 @@ def text_reply(msg):
     req = requests.post(api_url, data=data).text
     replys = json.loads(req)['text']
     return replys
+if __name__ == '__main__':
+    print(text_reply('北京西二期天气'))
+    print(text_reply('讲个笑话'))
