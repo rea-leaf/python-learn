@@ -80,19 +80,16 @@ handbook_user_practical = '''
 #打卡日报提醒
 def repot_time(group_free):
     isWorkdate= workDate.checkWorkDate()
+    hour = int(time.strftime('%H', time.localtime(time.time())))
     if isWorkdate:
             if hour<12 :
                 nowTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-                for n in range(3):
-                    group_free[0].send( '早上好！\n要上班啦，大家记得打卡,昨天的日报记得写哟：\n{}\n------------今日天气------------\n{}'.format(nowTime, TuLingReply.text_reply('北京西二期天气')))
-                    time.sleep(3)
+                group_free[0].send( '早上好！\n要上班啦，大家记得打卡,昨天的日报记得写哟：\n{}\n------------今日天气------------\n{}'.format(nowTime, TuLingReply.text_reply('北京西二期天气')))
+                time.sleep(3)
             elif hour>12:
                 nowTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-                for n in range(3):
-                    for group in group_free:
-                        group.send('该下班啦！\n大家 记得打卡，写今天的日报：\n{}\n------------轻松一下------------\n{}'.format(nowTime, TuLingReply.text_reply('讲个笑话')))
-                        time.sleep(3)
-            time.sleep(1)
+                group_free[0].send('该下班啦！\n大家 记得打卡，写今天的日报：\n{}\n------------轻松一下------------\n{}'.format(nowTime, TuLingReply.text_reply('讲个笑话')))
+                time.sleep(3)
     else:
         return
 

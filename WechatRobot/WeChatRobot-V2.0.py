@@ -16,9 +16,9 @@ import workDate
 
 # 微信机器人
 # linux 下执行
-robot = Bot(console_qr=1, cache_path=True)
+#robot = Bot(console_qr=1, cache_path=True)
 # win 执行
-# robot=Bot(True)
+robot=Bot(True)
 log = Logger('WeChatRobot.log', level='info')
 log.logger.info('--------WeChatRobot 开始启动----------')
 # 定义远程管理员 (用于远程管理)，使用备注名更安全
@@ -41,7 +41,7 @@ if robot_master not in group_admin:
 robot_master.send('机器人上线\n当前管理员组--{}'.format(group_admin))
 log.logger.info('--------WeChatRobot 机器人上线----------')
 # mps = robot.mps(update=True)
-group_1 = robot.groups().search('打卡提醒')[0]
+group_1 = robot.groups().search('打卡提醒，打卡提醒')[0]
 # group_2 = robot.groups().search('只是爱要怎么说 出口')[0]
 # 订餐群
 order_group = robot.groups().search('加班订饭群')[0]
@@ -447,8 +447,9 @@ def group_auto_send():
         FixedReply.repot_time(group_free)
         log.logger.info("----今日打卡提醒--结束-")
         # log.logger.info(todayNewsContent)
-    except:
+    except BaseException as e:
         log.logger.error("今日打卡提醒消息发送失败了")
+        log.logger.error(e)
 
 
 def order_auto_start():
@@ -504,7 +505,7 @@ def order_auto_end():
 #if __name__ == '__main__':
     #order_auto_start();
     #order_auto_ag();
-    # order_auto_end();
+    #group_auto_send();
 log.logger.info("***开始启动定时任务***")
 sched = BlockingScheduler()
 sched.add_job(group_auto_send, 'cron', month='1-12', day='1-31', hour=9, minute=10)  # 设定发送的时间
